@@ -1,0 +1,23 @@
+numOps(e) := block([s,a,b], b : simp,
+if stringp(e) then (simp : false, s : numOps(parse_string(e))) 
+else if atom(e) then s : 0
+else (a : args(e), s : max(1,length(args(e))-1),
+   for x in a do 
+   (if op(e)="+" and not atom(x) and op(x)="-" then x : first(args(x)), 
+    s : s + numOps(x))),
+simp : true, s : s, simp : b, s);
+
+isSum(e) := block([s,b], b : simp,
+if stringp(e) then (simp : false, s : isSum(parse_string(e)))
+else if atom(e) then s : false else s : is(equal(op(e),"+")),
+simp : true, s : s, simp : b, s);
+
+isProd(e) := block([s,b], b : simp,
+if stringp(e) then (simp : false, s : isProd(parse_string(e)))
+else if atom(e) then s : false else s : is(equal(op(e),"*")),
+simp : true, s : s, simp : b, s);
+
+isZero(e) := block([], if stringp(e) then isZero(parse_string(e))
+else is(equal(trigsimp(ratsimp(e)),0)));
+
+
