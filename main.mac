@@ -1,1 +1,6 @@
-load("tuwas.mac");
+/* add directory of this file to search path */
+file_search_maxima: cons(
+	concat(pathname_directory(load_pathname), "###.mac"),
+	file_search_maxima
+);
+load("tuwas.mac")$
